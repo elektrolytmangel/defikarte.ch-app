@@ -1,0 +1,40 @@
+{
+  "cli": {
+    "version": ">= 0.47.0"
+  },
+  "build": {
+    "development": {
+      "releaseChannel": "beta",
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_BASE_URL": "https://defikarte-backend-staging.azurewebsites.net/api"
+      }
+    },
+    "preview": {
+      "releaseChannel": "beta",
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "autoIncrement": true
+      },
+      "env": {
+        "EXPO_PUBLIC_BASE_URL": "https://defikarte-backend-staging.azurewebsites.net/api"
+      }
+    },
+    "production": {
+      "releaseChannel": "production",
+      "ios": {
+        "autoIncrement": true
+      },
+      "env": {
+        "EXPO_PUBLIC_BASE_URL": "https://defikarte-backend.azurewebsites.net/api"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
