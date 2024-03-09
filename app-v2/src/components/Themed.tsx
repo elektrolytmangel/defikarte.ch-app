@@ -3,35 +3,66 @@
  * https://docs.expo.io/guides/color-schemes/
  */
 
-import { Text as DefaultText, View as DefaultView, TextInput as DefaultTextInput } from 'react-native';
-import DefaultBottomSheet, {
-  BottomSheetTextInput as DefaultBottomSheetTextInput,
-  BottomSheetProps as DefaultBottomSheetProps,
-} from '@gorhom/bottom-sheet';
 import Colors from '@/src/constants/Colors';
-import { useColorScheme } from './useColorScheme';
+import { FontAwesome6 as DefaultFontAwesome6 } from '@expo/vector-icons';
+import DefaultBottomSheet, {
+  BottomSheetProps as DefaultBottomSheetProps,
+  BottomSheetTextInput as DefaultBottomSheetTextInput,
+} from '@gorhom/bottom-sheet';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
+import {
+  Pressable as DefaultPressable,
+  PressableProps as DefaultPressableProps,
+  Text as DefaultText,
+  TextInput as DefaultTextInput,
+  View as DefaultView,
+  PressableStateCallbackType,
+  ScrollView as DefaultScrollView,
+} from 'react-native';
+import { useColorScheme } from './useColorScheme';
 
 type ThemeProps = {
   lightColor?: string;
   darkColor?: string;
 };
 
+export type PressableProps = ThemeProps & DefaultPressableProps;
 export type TextProps = ThemeProps & DefaultText['props'];
 export type ViewProps = ThemeProps & DefaultView['props'];
+export type ScrollViewProps = ThemeProps & DefaultScrollView['props'];
 export type TextInputProps = ThemeProps & DefaultTextInput['props'];
 export type BottomSheetProps = ThemeProps & DefaultBottomSheetProps & React.RefAttributes<BottomSheetMethods>;
 export type BottomSheetTextInputProps = ThemeProps & any;
+export type FontAwesome6Props = ThemeProps & any;
 
 export function useThemeColor(props: { light?: string; dark?: string }, colorName: keyof typeof Colors.light & keyof typeof Colors.dark) {
   const theme = useColorScheme() ?? 'light';
   const colorFromProps = props[theme];
-
   if (colorFromProps) {
     return colorFromProps;
   } else {
     return Colors[theme][colorName];
   }
+}
+
+export function Pressable(props: PressableProps) {
+  const { lightColor, darkColor, style, ...otherProps } = props;
+  const tint = useThemeColor({ light: lightColor, dark: darkColor }, 'tint');
+  const background = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+
+  if (typeof style === 'function') {
+    const styleFn = (state: PressableStateCallbackType) => {
+      const styleRes = style(state) as any;
+      return {
+        backgroundColor: state.pressed ? background : tint,
+        ...styleRes,
+      };
+    };
+
+    return <DefaultPressable style={styleFn} {...otherProps} />;
+  }
+
+  return <DefaultPressable style={[{ backgroundColor: tint }, style]} {...otherProps} />;
 }
 
 export function Text(props: TextProps) {
@@ -46,6 +77,13 @@ export function View(props: ViewProps) {
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
 
   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
+}
+
+export function ScrollView(props: ScrollViewProps) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+
+  return <DefaultScrollView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
 
 export function TextInput(props: TextInputProps) {
@@ -65,13 +103,20 @@ export function BottomSheetTextInput(props: BottomSheetTextInputProps) {
 export const BottomSheet = (props: BottomSheetProps) => {
   const { style, handleStyle, handleIndicatorStyle, backgroundStyle, lightColor, darkColor, ...otherProps } = props;
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
-  const onSurface = useThemeColor({ light: lightColor, dark: darkColor }, 'onSurface');
+  const tint = useThemeColor({ light: lightColor, dark: darkColor }, 'tint');
 
   return (
     <DefaultBottomSheet
-      handleIndicatorStyle={[{ backgroundColor: onSurface }, handleIndicatorStyle]}
+      handleIndicatorStyle={[{ backgroundColor: tint }, handleIndicatorStyle]}
       backgroundStyle={[{ backgroundColor }, backgroundStyle]}
       {...otherProps}
     />
   );
+};
+
+export const FontAwesome6 = (props: FontAwesome6Props) => {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+
+  return <DefaultFontAwesome6 style={[{ color }, style]} {...otherProps} />;
 };

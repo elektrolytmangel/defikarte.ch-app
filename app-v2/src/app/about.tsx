@@ -1,50 +1,43 @@
-import { Text, View } from '@/src/components/Themed';
+import { Text, View, ScrollView } from '@/src/components/Themed';
 import { StatusBar } from 'expo-status-bar';
-import { Image, Linking, Platform, ScrollView, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Image, Linking, Platform, StyleSheet, Pressable } from 'react-native';
+import Colors from '../constants/Colors';
 
 export default function ModalScreen() {
+  const { t } = useTranslation();
   return (
     <ScrollView style={styles.container}>
       <Image style={styles.imageStyle} source={require('@/assets/images/logo-defikarte.png')} />
+      <Text style={styles.versionText}>v2.0.0-alpha.1 / preview</Text>
       <View style={styles.wrapperStyle}>
-        <Text style={styles.titleStyle}>Das Projekt</Text>
-        <Text style={styles.textStyle}>
-          Die Defikarte.ch-App hilft dabei, den nächsten Defibrillator in deiner Nähe zu finden. Über die Navigations-App des jeweiligen
-          Gerätes, kannst du dich zu diesem navigieren lassen. So kann möglichst rasch einer Person in Not geholfen werden. Die Daten sind
-          Open Source und werden von der Community in OpenStreetMaps (OSM) gepflegt und verwaltet. Da es in der Schweiz keinen kompletten
-          Datensatz und auch keine Meldepflicht für Defibrillatoren gibt, sind nicht alle erfasst und somit auch nicht in der App
-          ersichtlich. Die OSM-Community ist bemüht, die Daten aktuell und vollständig zu halten. Bemerkst du also, dass ein Defibrillator
-          nicht eingetragen ist, unterstütze die Community und den guten Zweck indem du den fehlenden Defibrillator mithilfe dieser App mit
-          Leichtigkeit erfasst.
-        </Text>
+        <Text style={styles.titleStyle}>{t('the_project')}</Text>
+        <Text style={styles.textStyle}>{t('about_the_project_text')}</Text>
       </View>
       <View style={styles.wrapperStyle}>
-        <Text style={styles.titleStyle}>Webseite</Text>
+        <Text style={styles.titleStyle}>OpenBrackets Association Switzerland</Text>
+        <Text style={styles.linkStyle} onPress={() => Linking.openURL('https://www.openbrackets.ch')}>
+          www.OpenBrackets.ch
+        </Text>
         <Text style={styles.linkStyle} onPress={() => Linking.openURL('https://www.defikarte.ch')}>
-          https://www.defikarte.ch
+          www.defikarte.ch
+        </Text>
+      </View>
+
+      <View style={styles.wrapperStyle}>
+        <Text style={styles.titleStyle}>{t('osm_contributors')}</Text>
+        <Text style={styles.linkStyle} onPress={() => Linking.openURL('https://www.openstreetmap.org/copyright')}>
+          www.openstreetmap.org/copyright
         </Text>
       </View>
       <View style={styles.wrapperStyle}>
-        <Text style={styles.titleStyle}>OpenStreetMap </Text>
-        <Text style={styles.textStyle}>
-          OpenStreetMap Mitwirkende (
-          <Text style={styles.linkStyle} onPress={() => Linking.openURL('https://www.openstreetmap.org/copyright')}>
-            https://www.openstreetmap.org/copyright
-          </Text>
-          )
-        </Text>
-      </View>
-      <Image style={styles.imageStyle} source={require('@/assets/images/procamed.jpg')} />
-      <View style={styles.wrapperStyle}>
-        <Text style={styles.titleStyle}>exklusiver Platin Sponsor</Text>
-        <Text style={styles.linkStyle} onPress={() => Linking.openURL('https://www.aed.ch')}>
-          https://www.aed.ch
-        </Text>
-      </View>
-      <View style={styles.wrapperStyle}>
-        <Text style={styles.titleStyle}>Vielen Dank an alle unsere Sponsoren</Text>
+        <Text style={styles.titleStyle}>{t('app_sponsored_by')}</Text>
+        <Pressable onPress={() => Linking.openURL('https://www.aed.ch')}>
+          <Image style={styles.imageStyle} source={require('@/assets/images/procamed.jpg')} />
+        </Pressable>
+        <Text style={styles.titleStyle}>{t('thanks_to_all_sponsors')}</Text>
         <Text style={styles.linkStyle} onPress={() => Linking.openURL('https://www.defikarte.ch/sponsors.html')}>
-          https://www.defikarte.ch/sponsors.html
+          www.defikarte.ch/sponsors.html
         </Text>
       </View>
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
@@ -55,9 +48,6 @@ export default function ModalScreen() {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'white',
-    paddingHorizontal: 10,
-    paddingBottom: 30,
   },
   title: {
     fontSize: 20,
@@ -70,28 +60,36 @@ const styles = StyleSheet.create({
   },
   titleStyle: {
     fontSize: 20,
-    alignSelf: 'center',
-    textAlign: 'center',
     fontWeight: '500',
+    marginVertical: 10,
   },
   wrapperStyle: {
-    marginHorizontal: 10,
-    marginBottom: 18,
+    marginHorizontal: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.light.tint,
   },
   textStyle: {
     fontSize: 16,
-    alignSelf: 'center',
   },
   linkStyle: {
-    fontSize: 16,
-    alignSelf: 'center',
-    color: 'blue',
+    fontSize: 20,
+    color: Colors.light.secondaryColor,
+    textDecorationStyle: 'solid',
     textDecorationLine: 'underline',
+    marginBottom: 10,
   },
   imageStyle: {
-    height: 150,
+    height: 100,
     width: '100%',
-    alignSelf: 'center',
     marginBottom: 10,
+  },
+  versionText: {
+    fontSize: 12,
+    textAlign: 'center',
+    color: Colors.light.onSurface,
+    marginBottom: 0,
   },
 });

@@ -1,14 +1,12 @@
-import { View, Text } from '@/src/components/Themed';
-import { Link } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
+import { Text, View } from '@/src/components/Themed';
 
-export default () => {
+export const Template = () => {
+  const { t } = useTranslation();
   return (
     <View style={styles.container}>
-      <View style={styles.container}>
-        <Text>Detail: I should be in the bottom sheet</Text>
-        <Link href="/map/search/">search</Link>
-      </View>
+      <Text>{t('template')}</Text>
     </View>
   );
 };

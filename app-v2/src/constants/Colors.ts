@@ -1,4 +1,4 @@
-const primaryColor = '#8AC926';
+const primaryColor = '#449847';
 const secondaryColor = '#1982C4';
 const tertiaryColor = '#FFCA3A';
 const quaternaryColor = '#FF595E';

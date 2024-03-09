@@ -1,13 +1,13 @@
-import { FontAwesome6, FontAwesome5 } from '@expo/vector-icons';
-import MapLibreGL, { MarkerView, UserLocation } from '@maplibre/maplibre-react-native';
-import { Link } from 'expo-router';
+import MapLibreGL, { UserLocation } from '@maplibre/maplibre-react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Pressable, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Constants } from '../../constants/Map';
+import { IconButton } from '../buttons/icon-button/IconButton';
 import { Camera } from './camera/Camera';
 import { AedLayer } from './layers/aed-layer/AedLayer';
 import { Osmlayer } from './layers/osm-layer/OsmLayer';
-import { AedDetail } from '../aed-detail/AedDetail';
+import { FontAwesome6 } from '../Themed';
+import Colors from '@/src/constants/Colors';
 
 // Will be null for most users (only Mapbox authenticates this way).
 // Required on Android. See Android installation notes.
@@ -85,9 +85,6 @@ export const Map = (props: Props) => {
           <Osmlayer key={layer.id} sourceId={layer.id} tileUrlTemplates={[layer.url]} attribution={layer.attribution} />
         ))}
         <AedLayer data={props.data} onPress={(d) => setDetailData(d)} />
-        <MarkerView coordinate={markerPosition}>
-          <FontAwesome5 name="map-marker" size={32} color="red" />
-        </MarkerView>
       </MapLibreGL.MapView>
     </View>
   );
@@ -143,4 +140,9 @@ const styles = StyleSheet.create({
             <FontAwesome6 name="circle-info" size={24} color="black" />
           </Pressable>
         </Link>
-      </View> */
+      </View> 
+      
+       <MarkerView coordinate={markerPosition}>
+          <FontAwesome5 name="map-marker" size={32} color="red" />
+        </MarkerView>
+      */

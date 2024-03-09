@@ -1,5 +1,6 @@
 import { MapBottomSheet } from '@/src/components/map-bottom-sheet/MapBottomSheet';
 import { Map } from '@/src/components/map/Map';
+import { ButtonOverlay } from '@/src/components/map/button-overlay/ButtonOverlay';
 import { useAedContext } from '@/src/context/AedContext';
 import { requestAedData } from '@/src/services/aed-data.service';
 import { toGeoJson } from '@/src/services/geojson-convert.service';
@@ -21,8 +22,9 @@ export default () => {
   return (
     <>
       <Map data={state.data} />
+      <ButtonOverlay />
       <MapBottomSheet snapPoints={snapPoints}>
-        <Slot initialRouteName="/map/search/" />
+        <Slot />
       </MapBottomSheet>
     </>
   );
