@@ -6,6 +6,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
 import { useColorScheme } from '@/src/components/useColorScheme';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Provider as AedProvider } from '../context/AedContext';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -14,7 +16,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: 'index',
+  initialRouteName: '/map/search/',
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -44,15 +46,19 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
-function RootLayoutNav() {
+const RootLayoutNav = () => {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }}></Stack.Screen>
-        <Stack.Screen name="about" options={{ presentation: 'modal', title: 'About' }} />
-      </Stack>
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <AedProvider>
+          <Stack>
+            <Stack.Screen name="map" options={{ headerShown: false, title: 'Map' }} />
+            <Stack.Screen name="about" options={{ presentation: 'modal', title: 'About' }} />
+          </Stack>
+        </AedProvider>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
-}
+};

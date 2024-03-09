@@ -3,7 +3,7 @@ import MapLibreGL, { MarkerView, UserLocation } from '@maplibre/maplibre-react-n
 import { Link } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Pressable, StyleSheet, View } from 'react-native';
-import { Constants } from './Constants';
+import { Constants } from '../../constants/Map';
 import { Camera } from './camera/Camera';
 import { AedLayer } from './layers/aed-layer/AedLayer';
 import { Osmlayer } from './layers/osm-layer/OsmLayer';
@@ -89,32 +89,6 @@ export const Map = (props: Props) => {
           <FontAwesome5 name="map-marker" size={32} color="red" />
         </MarkerView>
       </MapLibreGL.MapView>
-      <AedDetail data={detailData} />
-      <View style={styles.buttons}>
-        <Button
-          title="OSM"
-          color={visibleLayers.includes(Constants.OSM_SOURCE_ID) ? 'green' : 'red'}
-          onPress={() => onLayerChange(Constants.OSM_SOURCE_ID)}
-        ></Button>
-        <Button
-          title="OSM Swiss"
-          color={visibleLayers.includes(Constants.OSM_CH_SOURCE_ID) ? 'green' : 'red'}
-          onPress={() => onLayerChange(Constants.OSM_CH_SOURCE_ID)}
-        ></Button>
-        <Button
-          title="Set center"
-          onPress={() => {
-            map.current?.getCenter().then((center) => {
-              setMarkerPosition([center[0], center[1]]);
-            });
-          }}
-        ></Button>
-        <Link href={'/about'} asChild>
-          <Pressable>
-            <FontAwesome6 name="circle-info" size={24} color="black" />
-          </Pressable>
-        </Link>
-      </View>
     </View>
   );
 };
@@ -143,3 +117,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+/*
+ <View style={styles.buttons}>
+        <Button
+          title="OSM"
+          color={visibleLayers.includes(Constants.OSM_SOURCE_ID) ? 'green' : 'red'}
+          onPress={() => onLayerChange(Constants.OSM_SOURCE_ID)}
+        ></Button>
+        <Button
+          title="OSM Swiss"
+          color={visibleLayers.includes(Constants.OSM_CH_SOURCE_ID) ? 'green' : 'red'}
+          onPress={() => onLayerChange(Constants.OSM_CH_SOURCE_ID)}
+        ></Button>
+        <Button
+          title="Set center"
+          onPress={() => {
+            map.current?.getCenter().then((center) => {
+              setMarkerPosition([center[0], center[1]]);
+            });
+          }}
+        ></Button>
+        <Link href={'/about'} asChild>
+          <Pressable>
+            <FontAwesome6 name="circle-info" size={24} color="black" />
+          </Pressable>
+        </Link>
+      </View> */
