@@ -1,5 +1,5 @@
 import { Pressable, PressableProps, useThemeColor } from '@/src/components/Themed';
-import { PressableStateCallbackType, StyleSheet } from 'react-native';
+import { PressableStateCallbackType, StyleSheet, View } from 'react-native';
 
 type Props = {
   icon: React.ReactNode;
@@ -25,17 +25,21 @@ export const IconButton = (props: Props) => {
   };
 
   return (
-    <Pressable style={styleFn} {...otherProps}>
-      {icon}
-    </Pressable>
+    <View style={styles.borderStyle}>
+      <Pressable style={styleFn} {...otherProps}>
+        {icon}
+      </Pressable>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  borderStyle: {
+    borderRadius: 60,
     borderWidth: 2,
     borderColor: 'rgba(0, 0, 0, 0.1)',
   },

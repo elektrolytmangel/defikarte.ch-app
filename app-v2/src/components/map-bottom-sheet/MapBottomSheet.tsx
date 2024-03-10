@@ -18,7 +18,7 @@ export const MapBottomSheet = (props: Props) => {
 
   const hanldeOnClose = () => {
     props.setSnapPoints(['15%', '90%']);
-    router.navigate('/');
+    router.replace('/');
     ref.current?.collapse();
     props.onClose?.();
   };

@@ -4,12 +4,11 @@ import { ButtonOverlay } from '@/src/components/map/button-overlay/ButtonOverlay
 import { useAedContext } from '@/src/context/AedContext';
 import { requestAedData } from '@/src/services/aed-data.service';
 import { toGeoJson } from '@/src/services/geojson-convert.service';
-import { Slot, router, useNavigation } from 'expo-router';
+import { Slot, router } from 'expo-router';
 import { Feature } from 'geojson';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default () => {
-  const navigation = useNavigation();
   const [snapPoints, setSnapPoints] = useState<string[]>(['15%', '90%']);
   const { state, dispatch } = useAedContext();
   const [focusOnUserLocation, setFocusOnUserLocation] = useState(true);
