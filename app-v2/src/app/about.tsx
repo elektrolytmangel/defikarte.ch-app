@@ -1,20 +1,26 @@
-import { Text, View, ScrollView } from '@/src/components/Themed';
+import { ScrollView, Text, View, useThemeColor } from '@/src/components/Themed';
 import { StatusBar } from 'expo-status-bar';
 import { useTranslation } from 'react-i18next';
-import { Image, Linking, Platform, StyleSheet, Pressable } from 'react-native';
+import { Image, Linking, Platform, Pressable, StyleSheet } from 'react-native';
 import Colors from '../constants/Colors';
 
 export default function ModalScreen() {
   const { t } = useTranslation();
+  const tint = useThemeColor({}, 'tint');
+
+  const wrapperStyle = {
+    borderBottomColor: tint,
+    ...styles.wrapperStyle,
+  };
   return (
     <ScrollView style={styles.container}>
       <Image style={styles.imageStyle} source={require('@/assets/images/logo-defikarte.png')} />
       <Text style={styles.versionText}>v2.0.0-alpha.1 / preview</Text>
-      <View style={styles.wrapperStyle}>
+      <View style={wrapperStyle}>
         <Text style={styles.titleStyle}>{t('the_project')}</Text>
         <Text style={styles.textStyle}>{t('about_the_project_text')}</Text>
       </View>
-      <View style={styles.wrapperStyle}>
+      <View style={wrapperStyle}>
         <Text style={styles.titleStyle}>OpenBrackets Association Switzerland</Text>
         <Text style={styles.linkStyle} onPress={() => Linking.openURL('https://www.openbrackets.ch')}>
           www.OpenBrackets.ch
@@ -24,13 +30,13 @@ export default function ModalScreen() {
         </Text>
       </View>
 
-      <View style={styles.wrapperStyle}>
+      <View style={wrapperStyle}>
         <Text style={styles.titleStyle}>{t('osm_contributors')}</Text>
         <Text style={styles.linkStyle} onPress={() => Linking.openURL('https://www.openstreetmap.org/copyright')}>
           www.openstreetmap.org/copyright
         </Text>
       </View>
-      <View style={styles.wrapperStyle}>
+      <View style={wrapperStyle}>
         <Text style={styles.titleStyle}>{t('app_sponsored_by')}</Text>
         <Pressable onPress={() => Linking.openURL('https://www.aed.ch')}>
           <Image style={styles.imageStyle} source={require('@/assets/images/procamed.jpg')} />
@@ -69,7 +75,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 20,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.light.tint,
   },
   textStyle: {
     fontSize: 16,
@@ -89,7 +94,6 @@ const styles = StyleSheet.create({
   versionText: {
     fontSize: 12,
     textAlign: 'center',
-    color: Colors.light.onSurface,
     marginBottom: 0,
   },
 });

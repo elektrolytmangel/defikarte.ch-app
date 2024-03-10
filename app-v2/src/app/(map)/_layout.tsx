@@ -4,26 +4,53 @@ import { ButtonOverlay } from '@/src/components/map/button-overlay/ButtonOverlay
 import { useAedContext } from '@/src/context/AedContext';
 import { requestAedData } from '@/src/services/aed-data.service';
 import { toGeoJson } from '@/src/services/geojson-convert.service';
-import { Slot } from 'expo-router';
+import { Slot, router, useNavigation } from 'expo-router';
+import { Feature } from 'geojson';
 import { useEffect, useState } from 'react';
 
 export default () => {
+  const navigation = useNavigation();
   const [snapPoints, setSnapPoints] = useState<string[]>(['15%', '90%']);
   const { state, dispatch } = useAedContext();
+  const [focusOnUserLocation, setFocusOnUserLocation] = useState(true);
 
   useEffect(() => {
     const initData = async () => {
       const response = await requestAedData();
-      dispatch({ type: 'SET_AED_DATA', payload: { data: toGeoJson(response) } });
+      dispatch({ type: 'SET_AED_DATA', payload: toGeoJson(response) });
     };
     initData();
   }, []);
 
+  const onFeaturePress = (feature: Feature) => {
+    dispatch({ type: 'SET_SELECTED_AED_DATA', payload: feature });
+    setSnapPoints(['50%', '90%']);
+    router.navigate('detail');
+  };
+
+  const onPositionPress = () => {
+    console.log('position');
+    setFocusOnUserLocation(true);
+  };
+
+  const onLayerPress = () => {
+    console.log('layer');
+  };
+
+  const onAddPress = () => {
+    console.log('add');
+  };
+
   return (
     <>
-      <Map data={state.data} />
-      <ButtonOverlay />
-      <MapBottomSheet snapPoints={snapPoints}>
+      <Map
+        data={state.data}
+        focusOnUserLocation={focusOnUserLocation}
+        setFocusOnUserLocation={setFocusOnUserLocation}
+        onFeaturePress={onFeaturePress}
+      />
+      <ButtonOverlay onAddPress={onAddPress} onLayerPress={onLayerPress} onPositionPress={onPositionPress} />
+      <MapBottomSheet snapPoints={snapPoints} setSnapPoints={setSnapPoints}>
         <Slot />
       </MapBottomSheet>
     </>

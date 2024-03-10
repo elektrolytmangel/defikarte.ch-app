@@ -4,11 +4,11 @@ const tertiaryColor = '#FFCA3A';
 const quaternaryColor = '#FF595E';
 
 const tintColorLight = '#f0f0f0';
-const tintColorDark = '#fff';
+const tintColorDark = '#232323';
 
 export default {
   light: {
-    text: '#000',
+    text: '#020202',
     onSurface: '#000',
     background: '#fff',
     tint: tintColorLight,
@@ -18,9 +18,9 @@ export default {
     quaternaryColor,
   },
   dark: {
-    text: '#fff',
+    text: '#f0f0f0',
     onSurface: '#fff',
-    background: '#000',
+    background: '#0f0f0f',
     tint: tintColorDark,
     primaryColor,
     secondaryColor,

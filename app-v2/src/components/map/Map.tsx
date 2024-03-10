@@ -1,13 +1,10 @@
 import MapLibreGL, { UserLocation } from '@maplibre/maplibre-react-native';
+import { Feature } from 'geojson';
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Constants } from '../../constants/Map';
-import { IconButton } from '../buttons/icon-button/IconButton';
-import { Camera } from './camera/Camera';
 import { AedLayer } from './layers/aed-layer/AedLayer';
 import { Osmlayer } from './layers/osm-layer/OsmLayer';
-import { FontAwesome6 } from '../Themed';
-import Colors from '@/src/constants/Colors';
 
 // Will be null for most users (only Mapbox authenticates this way).
 // Required on Android. See Android installation notes.
@@ -28,16 +25,29 @@ const layers = [
 
 type Props = {
   data: any;
+  focusOnUserLocation?: boolean;
+  setFocusOnUserLocation?: (focus: boolean) => void;
+  onFeaturePress?: (feature: Feature) => void;
 };
 
 export const Map = (props: Props) => {
   const [visibleLayers, setVisibleLayers] = useState<string[]>([]);
   const map = useRef<MapLibreGL.MapView>(null);
+  const [cameraLocation, setCameraLocation] = useState<[number, number]>(Constants.MAP_INITIAL_CENTER);
+  const [cameraZoom, setCameraZoom] = useState(Constants.MAP_INITIAL_ZOOM);
   const [userLocation, setUserLocation] = useState<[number, number]>([0, 0]);
-  const [markerPosition, setMarkerPosition] = useState<[number, number]>([0, 0]);
-  const [cameraLocation, setCameraLocation] = useState<[number, number]>([0, 0]);
-  const [initialUserLocatuionFocus, setInitialUserLocationFocus] = useState(true);
   const [detailData, setDetailData] = useState<any>(null);
+  const cameraRef = useRef<MapLibreGL.Camera>(null);
+
+  const flyTo = (location: [number, number], zoom?: number) => {
+    setCameraLocation(location);
+    if (zoom) {
+      setCameraZoom(zoom);
+      cameraRef.current?.setCamera({ centerCoordinate: location, zoomLevel: zoom });
+    } else {
+      cameraRef.current?.moveTo(location, zoom);
+    }
+  };
 
   useEffect(() => {
     for (const layerId of visibleLayers) {
@@ -52,11 +62,26 @@ export const Map = (props: Props) => {
   }, [visibleLayers]);
 
   useEffect(() => {
-    if (initialUserLocatuionFocus && userLocation[0] > 0 && userLocation[1] > 0) {
-      setCameraLocation(userLocation);
-      setInitialUserLocationFocus(false);
+    if (props.focusOnUserLocation === true && userLocation[0] > 0 && userLocation[1] > 0) {
+      props.setFocusOnUserLocation?.(false);
+      flyTo(userLocation, Constants.MAP_USER_LOCATION_ZOOM);
     }
-  }, [userLocation]);
+  }, [userLocation, props.focusOnUserLocation, props.setFocusOnUserLocation]);
+
+  const onFeaturePress = async (feature: Feature) => {
+    if (feature) {
+      setDetailData(feature);
+      if (feature.geometry.type === 'Point' && feature.properties?.cluster !== true) {
+        const correction = 0.001;
+        flyTo([feature.geometry.coordinates[0], feature.geometry.coordinates[1] - correction], Constants.MAP_AED_LOCATION_ZOOM);
+
+        props.onFeaturePress?.(feature);
+      } else if (feature.geometry.type === 'Point' && feature.properties?.cluster === true) {
+        // ToDo: fit to bounds instead of go to center where probably not even data is
+        flyTo([feature.geometry.coordinates[0], feature.geometry.coordinates[1]]);
+      }
+    }
+  };
 
   const onLayerChange = (layerId: string) => {
     const isLayerVisible = visibleLayers.includes(layerId);
@@ -79,12 +104,15 @@ export const Map = (props: Props) => {
         ref={map}
         preferredFramesPerSecond={60}
       >
-        <UserLocation onUpdate={(location) => setUserLocation([location.coords.longitude, location.coords.latitude])} />
-        <Camera center={cameraLocation} zoom={14} />
+        <UserLocation
+          onUpdate={(location) => setUserLocation([location.coords.longitude, location.coords.latitude])}
+          minDisplacement={10}
+        />
+        <MapLibreGL.Camera ref={cameraRef} centerCoordinate={cameraLocation} zoomLevel={cameraZoom}></MapLibreGL.Camera>
         {layers.map((layer) => (
           <Osmlayer key={layer.id} sourceId={layer.id} tileUrlTemplates={[layer.url]} attribution={layer.attribution} />
         ))}
-        <AedLayer data={props.data} onPress={(d) => setDetailData(d)} />
+        <AedLayer data={props.data} onPress={(d) => onFeaturePress(d)} />
       </MapLibreGL.MapView>
     </View>
   );

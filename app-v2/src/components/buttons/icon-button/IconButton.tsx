@@ -1,29 +1,31 @@
-import Colors from '@/src/constants/Colors';
+import { Pressable, PressableProps, useThemeColor } from '@/src/components/Themed';
 import { PressableStateCallbackType, StyleSheet } from 'react-native';
-import { Pressable, PressableProps, useThemeColor } from '../../Themed';
 
 type Props = {
   icon: React.ReactNode;
+  size?: 'normal' | 'large';
 } & PressableProps;
 
 export const IconButton = (props: Props) => {
   const { icon, style, ...otherProps } = props;
-  // const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
-  //const tint = useThemeColor({ light: lightColor, dark: darkColor }, 'tint');
-  if (typeof style === 'function') {
-    const styleFn = (state: PressableStateCallbackType) => {
-      const styleRes = style(state) as any;
-      return {
-        ...styleRes,
-        ...styles.container,
-      };
-    };
+  const background = useThemeColor({}, 'background');
+  const backgroundActive = useThemeColor({}, 'tint');
 
-    return <Pressable style={styleFn} {...otherProps} />;
-  }
+  const size = props.size === 'large' ? 60 : 48;
+  const styleFn = (state: PressableStateCallbackType) => {
+    const styleRes = typeof style === 'function' ? (style(state) as any) : style;
+    return {
+      ...styleRes,
+      ...styles.container,
+      width: size,
+      height: size,
+      borderRadius: size / 2,
+      backgroundColor: state.pressed ? backgroundActive : background,
+    };
+  };
 
   return (
-    <Pressable style={{ ...(style as any), ...styles.container }} {...otherProps}>
+    <Pressable style={styleFn} {...otherProps}>
       {icon}
     </Pressable>
   );
@@ -31,11 +33,7 @@ export const IconButton = (props: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.light.tint,
-    borderRadius: 50,
     padding: 10,
-    width: 50,
-    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,

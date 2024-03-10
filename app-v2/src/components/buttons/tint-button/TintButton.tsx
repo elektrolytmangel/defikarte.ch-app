@@ -7,10 +7,11 @@ interface Props extends PressableProps {
 }
 
 export const TintButton = (props: Props) => {
-  const { icon, title, ...otherProps } = props;
+  const { icon, title, style, ...otherProps } = props;
 
+  const containerStyle = { ...(style as any), ...styles.container };
   return (
-    <Pressable style={(pressed) => (pressed ? styles.container : null)} {...otherProps}>
+    <Pressable style={(pressed) => (pressed ? containerStyle : containerStyle)} {...otherProps}>
       {icon ?? null}
       <Text style={styles.text}>{title}</Text>
     </Pressable>

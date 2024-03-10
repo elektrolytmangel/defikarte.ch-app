@@ -48,3 +48,7 @@ android
 **/*.ipa
 
 ios
+# Expo
+.expo
+dist/
+web-build/

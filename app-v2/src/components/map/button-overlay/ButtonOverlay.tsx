@@ -1,38 +1,45 @@
 import { FontAwesome6, View } from '@/src/components/Themed';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet } from 'react-native';
-import { IconButton } from '../../buttons/icon-button/IconButton';
 import Colors from '@/src/constants/Colors';
+import { StyleSheet, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { IconButton } from '../../buttons/icon-button/IconButton';
 
-export const ButtonOverlay = () => {
-  const { t } = useTranslation();
+type Props = {
+  onPositionPress: () => void;
+  onLayerPress: () => void;
+  onAddPress: () => void;
+};
+
+export const ButtonOverlay = (props: Props) => {
   const safeAreaInsets = useSafeAreaInsets();
+  const { height } = useWindowDimensions();
 
+  const percent15OfWindowHeigth = height * 0.15;
   const containerStyle = {
-    top: 35 + safeAreaInsets.top,
+    top: safeAreaInsets.top,
+    paddingVertical: 15,
+    height: height - percent15OfWindowHeigth - safeAreaInsets.top,
     ...styles.container,
   };
+
   return (
     <View style={containerStyle}>
       <View style={styles.topContainer}>
         <IconButton
-          style={{}}
           icon={
             <FontAwesome6 lightColor={Colors.light.primaryColor} darkColor={Colors.dark.primaryColor} name="location-arrow" size={24} />
           }
-          onPress={() => {}}
+          onPress={props.onPositionPress}
         />
         <IconButton
-          style={{}}
           icon={<FontAwesome6 lightColor={Colors.light.primaryColor} darkColor={Colors.dark.primaryColor} name="layer-group" size={24} />}
-          onPress={() => {}}
+          onPress={props.onLayerPress}
         />
       </View>
       <IconButton
-        style={{}}
+        size="large"
         icon={<FontAwesome6 lightColor={Colors.light.primaryColor} darkColor={Colors.dark.primaryColor} name="plus" size={24} />}
-        onPress={() => {}}
+        onPress={props.onAddPress}
       />
     </View>
   );
@@ -40,13 +47,13 @@ export const ButtonOverlay = () => {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-    height: '73%',
-    end: 10,
     position: 'absolute',
-    alignSelf: 'flex-end',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
     backgroundColor: 'transparent',
+    pointerEvents: 'box-none',
+    gap: 10,
+    right: 10,
   },
   topContainer: {
     backgroundColor: 'transparent',

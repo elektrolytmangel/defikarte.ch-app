@@ -11,4 +11,9 @@ export class Constants {
 
   static readonly OSM_ATTRIBUTION = '&copy; OpenStreetMap contributors';
   static readonly OSM_CH_ATTRIBUTION = '&copy; OpenStreetMap contributors';
+
+  static readonly MAP_INITIAL_CENTER: [number, number] = [7.44744, 46.94809];
+  static readonly MAP_INITIAL_ZOOM: number = 8;
+  static readonly MAP_USER_LOCATION_ZOOM: number = 14;
+  static readonly MAP_AED_LOCATION_ZOOM: number = 16;
 }

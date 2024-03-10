@@ -10,7 +10,7 @@ export default () => {
   const safeAreaInsets = useSafeAreaInsets();
 
   const menuGroupStyle = {
-    paddingBottom: safeAreaInsets.bottom,
+    paddingBottom: safeAreaInsets.bottom !== 0 ? safeAreaInsets.bottom : 10,
     ...styles.menuGroup,
   };
   return (

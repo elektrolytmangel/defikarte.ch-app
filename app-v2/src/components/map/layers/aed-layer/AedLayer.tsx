@@ -1,6 +1,7 @@
 import MapLibreGL from '@maplibre/maplibre-react-native';
+import OnPressEvent from '@maplibre/maplibre-react-native/javascript/types/OnPressEvent';
 import { FeatureCollection } from 'geojson';
-import { clusterCount, clusteredPoints, mag1, mag2, mag3, mag4, mag5, aedSinglePointStyle } from './AedLayer.style';
+import { aedSinglePointStyle, clusterCount, clusteredPoints, mag1, mag2, mag3, mag4, mag5 } from './AedLayer.style';
 
 type Props = {
   data: FeatureCollection;
@@ -8,10 +9,11 @@ type Props = {
 };
 
 export const AedLayer = (props: Props) => {
-  const handlePress = (e: any) => {
-    console.log('AedLayer handlePress', e.features);
-    props.onPress(e.features[0]);
+  const handlePress = (e: OnPressEvent) => {
+    const features = e.features;
+    props.onPress(features[0]);
   };
+
   return (
     <MapLibreGL.ShapeSource
       id="aed"
