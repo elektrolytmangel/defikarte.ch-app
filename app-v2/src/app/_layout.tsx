@@ -1,4 +1,3 @@
-import '../i18n/i18n';
 import { useColorScheme } from '@/src/components/useColorScheme';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
@@ -8,10 +7,12 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider as AedProvider } from '../context/AedContext';
+import { Provider as LocationProvider } from '../context/LocationContext';
+import '../i18n/i18n';
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
+  ErrorBoundary
 } from 'expo-router';
 
 export const unstable_settings = {
@@ -53,10 +54,12 @@ const RootLayoutNav = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <AedProvider>
-          <Stack>
-            <Stack.Screen name="(map)" options={{ headerShown: false, title: 'Map' }} />
-            <Stack.Screen name="about" options={{ presentation: 'modal', title: 'About' }} />
-          </Stack>
+          <LocationProvider>
+            <Stack>
+              <Stack.Screen name="(map)" options={{ headerShown: false, title: 'Map' }} />
+              <Stack.Screen name="about" options={{ presentation: 'modal', title: 'About' }} />
+            </Stack>
+          </LocationProvider>
         </AedProvider>
       </ThemeProvider>
     </GestureHandlerRootView>

@@ -1,7 +1,6 @@
 import { getLocales } from 'expo-localization';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import { Directions } from 'react-native-gesture-handler';
 
 i18n.use(initReactI18next).init({
   compatibilityJSON: 'v3',
@@ -31,6 +30,12 @@ i18n.use(initReactI18next).init({
         openinghours: 'Opening hours',
         access: 'Access',
         indoor: 'Indoor',
+        location_service_off: 'Location Services is off',
+        location_dialog_title: 'Defikarte.ch works best with Location Services truned on.',
+        location_dialog_message:
+          "You'll get distance to nearby defibrillators, easily create new ones at your location and location yourself when you turn on Location Services for Defikarte.ch.",
+        turn_location_on_in_settings: 'Turn On in Settings',
+        keep_location_services_off: 'Keep Location Services Off',
       },
     },
     de: {
@@ -53,6 +58,12 @@ i18n.use(initReactI18next).init({
         openinghours: 'Öffnungszeiten',
         access: 'Zugänglich',
         indoor: 'Im Gebäude',
+        location_service_off: 'Standortdienst ist ausgeschaltet',
+        location_dialog_title: 'Defikarte.ch funktioniert am besten mit aktiviertem Standortdienst.',
+        location_dialog_message:
+          'Sie erhalten die Entfernung zu nahegelegenen Defibrillatoren, können leicht Neue an Ihrem Standort erstellen und sich selbst lokalisieren wenn Sie den Standortdienst für Defikarte.ch aktivieren.',
+        turn_location_on_in_settings: 'In Einstellungen aktivieren',
+        keep_location_services_off: 'Standortdienste ausgeschaltet lassen',
       },
     },
     fr: {
@@ -75,6 +86,12 @@ i18n.use(initReactI18next).init({
         openinghours: 'heures d’ouverture',
         access: 'accessibles dans le bâtiment',
         indoor: 'dans le bâtiment',
+        location_service_off: 'Le service de localisation est désactivé',
+        location_dialog_title: 'Defikarte.ch fonctionne mieux avec les services de localisation activés.',
+        location_dialog_message:
+          'Vous obtiendrez la distance aux défibrillateurs à proximité, pourrez facilement en créer de nouveaux à votre emplacement et vous localiser lorsque vous activerez les services de localisation pour Defikarte.ch.',
+        turn_location_on_in_settings: 'Activer dans les paramètres',
+        keep_location_services_off: 'Laisser les services de localisation désactivés',
       },
     },
     it: {
@@ -97,6 +114,12 @@ i18n.use(initReactI18next).init({
         openinghours: 'orari di apertura',
         access: "accessibile nell'edificio",
         indoor: "nell'edificio",
+        location_service_off: 'Il servizio di localizzazione è disattivato',
+        location_dialog_title: 'Defikarte.ch funziona meglio con i servizi di localizzazione attivati.',
+        location_dialog_message:
+          'Otterrai la distanza ai defibrillatori nelle vicinanze, potrai facilmente crearne di nuovi nella tua posizione e localizzarti quando attiverai i servizi di localizzazione per Defikarte.ch.',
+        turn_location_on_in_settings: 'Attiva nelle impostazioni',
+        keep_location_services_off: 'Lascia i servizi di localizzazione disattivati',
       },
     },
   },
