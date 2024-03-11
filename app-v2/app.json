@@ -21,7 +21,7 @@
       "bundleIdentifier": "ch.defikarte.dev",
       "buildNumber": "14",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Diese App benötigt die Standortdaten deines Gerätes um den nächsten AED anzeigen zu können."
+        "NSLocationWhenInUseUsageDescription": true
       }
     },
     "android": {
@@ -51,6 +51,12 @@
       "eas": {
         "projectId": "1d176347-a834-4c1c-92e7-c0f4637108a0"
       }
+    },
+    "locales": {
+      "de": "./assets/locales/de.json",
+      "en": "./assets/locales/en.json",
+      "fr": "./assets/locales/fr.json",
+      "it": "./assets/locales/it.json"
     }
   }
 }

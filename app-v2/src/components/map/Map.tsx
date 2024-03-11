@@ -36,7 +36,6 @@ export const Map = (props: Props) => {
   const [cameraLocation, setCameraLocation] = useState<[number, number]>(Constants.MAP_INITIAL_CENTER);
   const [cameraZoom, setCameraZoom] = useState(Constants.MAP_INITIAL_ZOOM);
   const [userLocation, setUserLocation] = useState<[number, number]>([0, 0]);
-  const [detailData, setDetailData] = useState<any>(null);
   const cameraRef = useRef<MapLibreGL.Camera>(null);
 
   const flyTo = (location: [number, number], zoom?: number) => {
@@ -70,9 +69,8 @@ export const Map = (props: Props) => {
 
   const onFeaturePress = async (feature: Feature) => {
     if (feature) {
-      setDetailData(feature);
       if (feature.geometry.type === 'Point' && feature.properties?.cluster !== true) {
-        const correction = 0.001;
+        const correction = 0.001; // does not work when rotated
         flyTo([feature.geometry.coordinates[0], feature.geometry.coordinates[1] - correction], Constants.MAP_AED_LOCATION_ZOOM);
 
         props.onFeaturePress?.(feature);
@@ -99,6 +97,7 @@ export const Map = (props: Props) => {
         logoEnabled={false}
         zoomEnabled={true}
         pitchEnabled={false}
+        rotateEnabled={false}
         compassEnabled={false}
         styleURL={Constants.BASISKARTE_STYLE_URL}
         attributionPosition={{ bottom: 5, left: 5 }}
