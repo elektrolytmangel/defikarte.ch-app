@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "ch.defikarte.dev",
-      "buildNumber": "14",
+      "buildNumber": "15",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": true
       }

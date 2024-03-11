@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
   },
   innerContainerStyle: {
     marginLeft: 20,
+    flex: 1,
   },
   containerStyle: {
     flexDirection: 'row',

@@ -36,6 +36,8 @@ i18n.use(initReactI18next).init({
           "You'll get distance to nearby defibrillators, easily create new ones at your location and locate yourself when you turn on Location Services for Defikarte.ch.",
         turn_location_on_in_settings: 'Turn On in Settings',
         keep_location_services_off: 'Keep Location Services Off',
+        open: 'Open',
+        closed: 'Closed',
       },
     },
     de: {
@@ -64,6 +66,8 @@ i18n.use(initReactI18next).init({
           'Sie können die Distanz zu nahegelegenen Defibrillatoren anzeigen und sich selbst lokalisieren wenn Sie den Standort für Defikarte.ch aktivieren.',
         turn_location_on_in_settings: 'In Einstellungen aktivieren',
         keep_location_services_off: 'Standortdienste ausgeschaltet lassen',
+        open: 'Geöffnet',
+        closed: 'Geschlossen',
       },
     },
     fr: {
@@ -92,6 +96,8 @@ i18n.use(initReactI18next).init({
           'Vous obtiendrez la distance aux défibrillateurs à proximité, pourrez facilement en créer de nouveaux à votre emplacement et vous localiser lorsque vous activerez les services de localisation pour Defikarte.ch.',
         turn_location_on_in_settings: 'Activer dans les paramètres',
         keep_location_services_off: 'Laisser les services de localisation désactivés',
+        open: 'Ouvert',
+        closed: 'Fermé',
       },
     },
     it: {
@@ -120,6 +126,8 @@ i18n.use(initReactI18next).init({
           'Otterrai la distanza ai defibrillatori nelle vicinanze, potrai facilmente crearne di nuovi nella tua posizione e localizzarti quando attiverai i servizi di localizzazione per Defikarte.ch.',
         turn_location_on_in_settings: 'Attiva nelle impostazioni',
         keep_location_services_off: 'Lascia i servizi di localizzazione disattivati',
+        open: 'Aperto',
+        closed: 'Chiuso',
       },
     },
   },

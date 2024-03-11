@@ -3,6 +3,7 @@ import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import { router } from 'expo-router';
 import { PropsWithChildren, useCallback, useRef } from 'react';
 import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BottomSheet } from '../Themed';
 
 interface Props extends PropsWithChildren {
@@ -13,6 +14,7 @@ interface Props extends PropsWithChildren {
 
 export const MapBottomSheet = (props: Props) => {
   const ref = useRef<BottomSheetMethods>(null);
+  const safeAreaInsets = useSafeAreaInsets();
 
   const handleSheetChanges = useCallback((index: number) => {}, []);
 
@@ -23,6 +25,11 @@ export const MapBottomSheet = (props: Props) => {
     props.onClose?.();
   };
 
+  const contentContainerStyle = {
+    ...styles.contentContainer,
+    
+    paddingBottom: safeAreaInsets.bottom,
+  };
   return (
     <BottomSheet
       ref={ref}
@@ -32,7 +39,7 @@ export const MapBottomSheet = (props: Props) => {
       onClose={hanldeOnClose}
       enablePanDownToClose
     >
-      <BottomSheetView style={styles.contentContainer}>{props.children}</BottomSheetView>
+      <BottomSheetView style={contentContainerStyle}>{props.children}</BottomSheetView>
     </BottomSheet>
   );
 };
@@ -40,5 +47,6 @@ export const MapBottomSheet = (props: Props) => {
 const styles = StyleSheet.create({
   contentContainer: {
     padding: 10,
+    flex: 1,
   },
 });

@@ -1,17 +1,22 @@
-import { FontAwesome6, ScrollView, Text, View } from '@/src/components/Themed';
+import { FontAwesome6, ScrollView, Text, View, useThemeColor } from '@/src/components/Themed';
 import { AttributeListing } from '@/src/components/attribute-listing/AttributeListing';
 import { TintButton } from '@/src/components/buttons/tint-button/TintButton';
 import { useAedContext } from '@/src/context/AedContext';
+import opening_hours from 'opening_hours';
 import { useTranslation } from 'react-i18next';
 import { Linking, Platform, StyleSheet } from 'react-native';
 import openMap from 'react-native-open-maps';
 
 export default () => {
   const { t } = useTranslation();
+  const openColor = useThemeColor({}, 'primaryColor');
+  const closedColor = useThemeColor({}, 'quaternaryColor');
   const {
     state: { selectedData },
   } = useAedContext();
+
   const defibrillator = selectedData;
+
   const makeCall = (phoneNumber: string) => {
     if (Platform.OS === 'ios') {
       phoneNumber = `telprompt:${phoneNumber}`;
@@ -22,6 +27,25 @@ export default () => {
     Linking.openURL(phoneNumber);
   };
 
+  const getIsOpenText = (openingHours: string | null | undefined) => {
+    if (!openingHours) {
+      return null;
+    }
+
+    try {
+      const oh = new opening_hours(openingHours || '');
+      const isOpen = oh.getState();
+      return isOpen ? (
+        <Text style={{ color: openColor, ...styles.openStyle }}>{t('open')}</Text>
+      ) : (
+        <Text style={{ color: closedColor, ...styles.openStyle }}>{t('closed')}</Text>
+      );
+    } catch (e) {
+      console.error('Error parsing opening hours', e);
+      return null;
+    }
+  };
+
   if (!defibrillator) {
     return <View></View>;
   }
@@ -30,10 +54,14 @@ export default () => {
   const name = properties['defibrillator:location'] ?? properties.description ?? properties.operator ?? 'n/A';
   const emergencyPhone = properties['emergency:phone'] ?? '144';
   const coordinates = defibrillator.geometry.type === 'Point' ? defibrillator.geometry.coordinates : null;
+  const isOpenText = getIsOpenText(properties.opening_hours);
   return (
     <>
       <View style={styles.innerContainerStyle}>
-        <Text style={styles.titleStyle}>{name}</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.titleStyle}>{name}</Text>
+          <Text>{isOpenText}</Text>
+        </View>
         <View style={styles.buttonContainerStyle}>
           <TintButton
             style={styles.buttonStyle}
@@ -59,7 +87,7 @@ export default () => {
           ></TintButton>
         </View>
       </View>
-      <ScrollView>
+      <ScrollView style={styles.attributeStyle}>
         <AttributeListing
           title={t('location')}
           icon={<FontAwesome6 style={styles.iconStyle} name="map-pin" />}
@@ -97,10 +125,18 @@ const styles = StyleSheet.create({
   titleStyle: {
     fontSize: 18,
     fontWeight: '500',
-    margin: 10,
+    marginBottom: 10,
+    marginVertical: 10,
   },
   innerContainerStyle: {
     marginHorizontal: 5,
+  },
+  titleContainer: {
+    flexDirection: 'column',
+    paddingBottom: 10,
+  },
+  attributeStyle: {
+    marginTop: 10,
   },
   buttonStyle: {
     flex: 1,
@@ -119,5 +155,9 @@ const styles = StyleSheet.create({
   },
   iconStyle: {
     fontSize: 24,
+  },
+  openStyle: {
+    fontWeight: '700',
+    fontSize: 14,
   },
 });
