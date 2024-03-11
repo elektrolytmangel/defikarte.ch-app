@@ -98,7 +98,8 @@ export const Map = (props: Props) => {
         style={styles.map}
         logoEnabled={false}
         zoomEnabled={true}
-        pitchEnabled={true}
+        pitchEnabled={false}
+        compassEnabled={false}
         styleURL={Constants.BASISKARTE_STYLE_URL}
         attributionPosition={{ bottom: 5, left: 5 }}
         ref={map}

@@ -45,6 +45,7 @@ yarn-error.*
 android
 
 **/*.apk
+**/*.aab
 **/*.ipa
 
 ios
