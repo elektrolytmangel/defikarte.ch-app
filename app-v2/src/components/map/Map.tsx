@@ -1,10 +1,11 @@
-import MapLibreGL, { UserLocation } from '@maplibre/maplibre-react-native';
+import MapLibreGL from '@maplibre/maplibre-react-native';
 import { Feature } from 'geojson';
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Constants } from '../../constants/Map';
 import { AedLayer } from './layers/aed-layer/AedLayer';
 import { Osmlayer } from './layers/osm-layer/OsmLayer';
+import { UserLocation } from './user-location/UserLocation';
 
 // Will be null for most users (only Mapbox authenticates this way).
 // Required on Android. See Android installation notes.
@@ -104,10 +105,7 @@ export const Map = (props: Props) => {
         ref={map}
         preferredFramesPerSecond={60}
       >
-        <UserLocation
-          onUpdate={(location) => setUserLocation([location.coords.longitude, location.coords.latitude])}
-          minDisplacement={10}
-        />
+        <UserLocation onUpdate={(location) => setUserLocation(location)} />
         <MapLibreGL.Camera ref={cameraRef} centerCoordinate={cameraLocation} zoomLevel={cameraZoom}></MapLibreGL.Camera>
         {layers.map((layer) => (
           <Osmlayer key={layer.id} sourceId={layer.id} tileUrlTemplates={[layer.url]} attribution={layer.attribution} />

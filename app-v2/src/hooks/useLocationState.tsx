@@ -36,9 +36,11 @@ export const useLocationState = () => {
 
   const _handleAppStateFocus = () => {
     setAppStateVisible('active');
+    requestLocationServices();
   };
 
   const requestLocationServices = () => {
+    console.log('requestLocationServices')
     Geolocation.getCurrentPosition(
       () => {
         locationDispatch({ type: 'SET_LOCATION_SERVICES_TURNED_ON', payload: true });
@@ -46,7 +48,7 @@ export const useLocationState = () => {
       () => {
         locationDispatch({ type: 'SET_LOCATION_SERVICES_TURNED_ON', payload: false });
       },
-      { enableHighAccuracy: true }
+      { enableHighAccuracy: true, maximumAge: 1000, distanceFilter: 5 }
     );
   };
 };

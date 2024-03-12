@@ -1,7 +1,7 @@
 import MapLibreGL from '@maplibre/maplibre-react-native';
 import OnPressEvent from '@maplibre/maplibre-react-native/javascript/types/OnPressEvent';
 import { FeatureCollection } from 'geojson';
-import { aedSinglePointStyle, clusterCount, clusteredPoints, mag1, mag2, mag3, mag4, mag5 } from './AedLayer.style';
+import { aedSinglePointStyle, clusterCount, clusteredPoints } from './AedLayer.style';
 
 type Props = {
   data: FeatureCollection;
@@ -20,30 +20,8 @@ export const AedLayer = (props: Props) => {
       onPress={(e) => handlePress(e)}
       shape={props.data}
       cluster={true}
-      clusterRadius={50}
+      clusterRadius={60}
       clusterMaxZoomLevel={14}
-      clusterProperties={{
-        mag1: [
-          ['+', ['accumulated'], ['get', 'mag1']],
-          ['case', mag1, 1, 0],
-        ],
-        mag2: [
-          ['+', ['accumulated'], ['get', 'mag2']],
-          ['case', mag2, 1, 0],
-        ],
-        mag3: [
-          ['+', ['accumulated'], ['get', 'mag3']],
-          ['case', mag3, 1, 0],
-        ],
-        mag4: [
-          ['+', ['accumulated'], ['get', 'mag4']],
-          ['case', mag4, 1, 0],
-        ],
-        mag5: [
-          ['+', ['accumulated'], ['get', 'mag5']],
-          ['case', mag5, 1, 0],
-        ],
-      }}
     >
       <MapLibreGL.SymbolLayer id="clusterCount" aboveLayerID="clusteredPoints" filter={['has', 'point_count']} style={clusterCount} />
       <MapLibreGL.CircleLayer id="clusteredPoints" filter={['has', 'point_count']} style={clusteredPoints} />

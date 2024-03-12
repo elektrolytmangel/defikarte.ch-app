@@ -29,17 +29,11 @@ const clusterCount: SymbolLayerStyle = {
 const clusteredPoints: CircleLayerStyle = {
   circlePitchAlignment: 'map',
   circleColor: '#449847',
-  circleRadius: 25,
+  circleRadius: ['step', ['get', 'point_count'], 12, 20, 14, 100, 18, 500, 18],
   circleOpacity: 1,
   circleStrokeOpacity: 0.7,
   circleStrokeWidth: 8,
   circleStrokeColor: '#449847',
 };
 
-const mag1 = ['<', ['get', 'mag'], 2];
-const mag2 = ['all', ['>=', ['get', 'mag'], 2], ['<', ['get', 'mag'], 3]];
-const mag3 = ['all', ['>=', ['get', 'mag'], 3], ['<', ['get', 'mag'], 4]];
-const mag4 = ['all', ['>=', ['get', 'mag'], 4], ['<', ['get', 'mag'], 5]];
-const mag5 = ['>=', ['get', 'mag'], 5];
-
-export { aedSinglePointStyle, clusterCount, clusteredPoints, mag1, mag2, mag3, mag4, mag5 };
+export { aedSinglePointStyle, clusterCount, clusteredPoints };
