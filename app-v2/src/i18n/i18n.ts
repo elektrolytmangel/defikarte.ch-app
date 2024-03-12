@@ -38,6 +38,7 @@ i18n.use(initReactI18next).init({
         keep_location_services_off: 'Keep Location Services Off',
         open: 'Open',
         closed: 'Closed',
+        accessible: 'Accessible',
       },
     },
     de: {
@@ -68,6 +69,7 @@ i18n.use(initReactI18next).init({
         keep_location_services_off: 'Standortdienste ausgeschaltet lassen',
         open: 'Geöffnet',
         closed: 'Geschlossen',
+        accessible: 'Zugänglich',
       },
     },
     fr: {
@@ -98,6 +100,7 @@ i18n.use(initReactI18next).init({
         keep_location_services_off: 'Laisser les services de localisation désactivés',
         open: 'Ouvert',
         closed: 'Fermé',
+        accessible: 'Accessible',
       },
     },
     it: {
@@ -128,6 +131,7 @@ i18n.use(initReactI18next).init({
         keep_location_services_off: 'Lascia i servizi di localizzazione disattivati',
         open: 'Aperto',
         closed: 'Chiuso',
+        accessible: 'Accessibile',
       },
     },
   },
