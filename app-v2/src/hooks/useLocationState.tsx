@@ -40,7 +40,6 @@ export const useLocationState = () => {
   };
 
   const requestLocationServices = () => {
-    console.log('requestLocationServices')
     Geolocation.getCurrentPosition(
       () => {
         locationDispatch({ type: 'SET_LOCATION_SERVICES_TURNED_ON', payload: true });
