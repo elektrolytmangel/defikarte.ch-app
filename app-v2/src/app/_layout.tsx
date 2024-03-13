@@ -9,11 +9,12 @@ import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider as AedProvider } from '../context/AedContext';
 import { Provider as LocationProvider } from '../context/LocationContext';
+import { Provider as SearchProvider } from '../context/SearchContext';
 import '../i18n/i18n';
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary
+  ErrorBoundary,
 } from 'expo-router';
 
 export const unstable_settings = {
@@ -56,10 +57,12 @@ const RootLayoutNav = () => {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <AedProvider>
           <LocationProvider>
-            <Stack>
-              <Stack.Screen name="(map)" options={{ headerShown: false, title: 'Map' }} />
-              <Stack.Screen name="about" options={{ presentation: 'modal', title: 'About' }} />
-            </Stack>
+            <SearchProvider>
+              <Stack>
+                <Stack.Screen name="(map)" options={{ headerShown: false, title: 'Map' }} />
+                <Stack.Screen name="about" options={{ presentation: 'modal', title: 'About' }} />
+              </Stack>
+            </SearchProvider>
           </LocationProvider>
         </AedProvider>
       </ThemeProvider>

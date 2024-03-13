@@ -31,7 +31,7 @@ i18n.use(initReactI18next).init({
         access: 'Access',
         indoor: 'Indoor',
         location_service_off: 'Location Services is off',
-        location_dialog_title: 'Defikarte.ch works best with Location Services truned on.',
+        location_dialog_title: 'Defikarte.ch works best with Location Services turned on.',
         location_dialog_message:
           "You'll get distance to nearby defibrillators, easily create new ones at your location and locate yourself when you turn on Location Services for Defikarte.ch.",
         turn_location_on_in_settings: 'Turn On in Settings',
@@ -39,6 +39,7 @@ i18n.use(initReactI18next).init({
         open: 'Open',
         closed: 'Closed',
         accessible: 'Accessible',
+        create_aed_at_address: 'Create AED at Address',
       },
     },
     de: {
@@ -70,6 +71,7 @@ i18n.use(initReactI18next).init({
         open: 'Geöffnet',
         closed: 'Geschlossen',
         accessible: 'Zugänglich',
+        create_aed_at_address: 'Defibrillator an Adresse erstellen',
       },
     },
     fr: {
@@ -101,6 +103,7 @@ i18n.use(initReactI18next).init({
         open: 'Ouvert',
         closed: 'Fermé',
         accessible: 'Accessible',
+        create_aed_at_address: 'Créer un DEA à l’adresse',
       },
     },
     it: {
@@ -132,6 +135,7 @@ i18n.use(initReactI18next).init({
         open: 'Aperto',
         closed: 'Chiuso',
         accessible: 'Accessibile',
+        create_aed_at_address: 'Crea un DEA all’indirizzo',
       },
     },
   },

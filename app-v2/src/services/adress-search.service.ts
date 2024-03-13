@@ -6,7 +6,7 @@ export const searchAddress = async (searchText: string) => {
   params.append('searchText', searchText);
   params.append('type', 'locations');
   params.append('returnGeometry', 'true');
-  params.append('limit', '50');
+  params.append('limit', '15');
   params.append('sr', '4326');
   params.append('geometryFormat', 'geojson');
 

@@ -1,5 +1,6 @@
 import { FontAwesome6, ScrollView, Text, View, useThemeColor } from '@/src/components/Themed';
 import { AttributeListing } from '@/src/components/attribute-listing/AttributeListing';
+import { BottomSheetCloseButton } from '@/src/components/buttons/bottom-sheet-close-button/BottomSHeetCloseButton';
 import { TintButton } from '@/src/components/buttons/tint-button/TintButton';
 import { useAedContext } from '@/src/context/AedContext';
 import opening_hours from 'opening_hours';
@@ -14,6 +15,7 @@ export default () => {
   const warningColor = useThemeColor({}, 'tertiaryColor');
   const {
     state: { selectedData },
+    dispatch,
   } = useAedContext();
 
   const defibrillator = selectedData;
@@ -47,6 +49,10 @@ export default () => {
     }
   };
 
+  const handleClose = () => {
+    dispatch({ type: 'SET_SELECTED_AED_DATA', payload: null });
+  };
+
   if (!defibrillator) {
     return <View></View>;
   }
@@ -68,6 +74,7 @@ export default () => {
     ) : null;
   return (
     <>
+      <BottomSheetCloseButton onPress={handleClose} />
       <View style={styles.innerContainerStyle}>
         <View style={styles.titleContainer}>
           <Text style={styles.titleStyle}>{name}</Text>

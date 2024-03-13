@@ -1,16 +1,16 @@
 import { FeatureCollection, Feature } from 'geojson';
 import { StyleSheet } from 'react-native';
 import { ScrollView } from '../Themed';
-import { SearchResult } from './search-result/SearchResult';
+import { Address } from '../address/Address';
 
 type Props = {
-  searchResult: FeatureCollection;
+  searchResult?: FeatureCollection | null;
   onPress?: (feature: Feature) => void;
 };
 
 export const SearchResultList = (props: Props) => {
-  const resultList = props.searchResult.features.map((feature) => {
-    return <SearchResult key={feature.id} feature={feature} onPress={props.onPress} />;
+  const resultList = props.searchResult?.features.map((feature) => {
+    return <Address key={feature.id} feature={feature} onPress={props.onPress} />;
   });
 
   return <ScrollView style={styles.container}>{resultList}</ScrollView>;

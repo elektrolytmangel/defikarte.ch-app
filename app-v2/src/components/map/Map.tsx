@@ -1,4 +1,4 @@
-import MapLibreGL from '@maplibre/maplibre-react-native';
+import MapLibreGL, { MarkerView } from '@maplibre/maplibre-react-native';
 import { Feature } from 'geojson';
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -6,6 +6,7 @@ import { Constants } from '../../constants/Map';
 import { AedLayer } from './layers/aed-layer/AedLayer';
 import { Osmlayer } from './layers/osm-layer/OsmLayer';
 import { UserLocation } from './user-location/UserLocation';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 // Will be null for most users (only Mapbox authenticates this way).
 // Required on Android. See Android installation notes.
@@ -26,8 +27,9 @@ const layers = [
 
 type Props = {
   data: any;
-  focusOnUserLocation?: boolean;
-  setFocusOnUserLocation?: (focus: boolean) => void;
+  setUserLocation?: (location: [number, number]) => void;
+  setFlyTo?: (flyTo: (location: [number, number], zoom?: number) => void) => void;
+  markerPosition?: [number, number] | null;
   onFeaturePress?: (feature: Feature) => void;
 };
 
@@ -36,8 +38,11 @@ export const Map = (props: Props) => {
   const map = useRef<MapLibreGL.MapView>(null);
   const [cameraLocation, setCameraLocation] = useState<[number, number]>(Constants.MAP_INITIAL_CENTER);
   const [cameraZoom, setCameraZoom] = useState(Constants.MAP_INITIAL_ZOOM);
-  const [userLocation, setUserLocation] = useState<[number, number]>([0, 0]);
   const cameraRef = useRef<MapLibreGL.Camera>(null);
+
+  useEffect(() => {
+    props.setFlyTo?.((location, zoom) => flyTo(location, zoom));
+  }, []);
 
   const flyTo = (location: [number, number], zoom?: number) => {
     setCameraLocation(location);
@@ -60,13 +65,6 @@ export const Map = (props: Props) => {
       }
     }
   }, [visibleLayers]);
-
-  useEffect(() => {
-    if (props.focusOnUserLocation === true && userLocation[0] > 0 && userLocation[1] > 0) {
-      props.setFocusOnUserLocation?.(false);
-      flyTo(userLocation, Constants.MAP_USER_LOCATION_ZOOM);
-    }
-  }, [userLocation, props.focusOnUserLocation, props.setFocusOnUserLocation]);
 
   const onFeaturePress = async (feature: Feature) => {
     if (feature) {
@@ -105,7 +103,12 @@ export const Map = (props: Props) => {
         ref={map}
         preferredFramesPerSecond={60}
       >
-        <UserLocation onUpdate={(location) => setUserLocation(location)} />
+        {props.markerPosition ? (
+          <MarkerView coordinate={props.markerPosition}>
+            <FontAwesome5 name="map-marker" size={32} color="red" />
+          </MarkerView>
+        ) : null}
+        <UserLocation onUpdate={(location) => props.setUserLocation?.(location)} />
         <MapLibreGL.Camera ref={cameraRef} centerCoordinate={cameraLocation} zoomLevel={cameraZoom}></MapLibreGL.Camera>
         {layers.map((layer) => (
           <Osmlayer key={layer.id} sourceId={layer.id} tileUrlTemplates={[layer.url]} attribution={layer.attribution} />
