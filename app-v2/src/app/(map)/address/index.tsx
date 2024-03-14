@@ -1,6 +1,6 @@
 import { FontAwesome6, View } from '@/src/components/Themed';
 import { Address } from '@/src/components/address/Address';
-import { BottomSheetCloseButton } from '@/src/components/buttons/bottom-sheet-close-button/BottomSHeetCloseButton';
+import { BottomSheetCloseButton } from '@/src/components/buttons/bottom-sheet-close-button/BottomSheetCloseButton';
 import { TintButton } from '@/src/components/buttons/tint-button/TintButton';
 import { useSearchContext } from '@/src/context/SearchContext';
 import { useBottomSheet } from '@gorhom/bottom-sheet';
