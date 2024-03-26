@@ -99,7 +99,7 @@ export const Map = (props: Props) => {
         rotateEnabled={false}
         compassEnabled={false}
         styleURL={Constants.BASISKARTE_STYLE_URL}
-        attributionPosition={{ bottom: 5, left: 5 }}
+        attributionPosition={{ bottom: 100, left: 5 }}
         ref={map}
         preferredFramesPerSecond={60}
       >

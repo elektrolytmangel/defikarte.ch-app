@@ -19,7 +19,6 @@ export const MapBottomSheet = (props: Props) => {
   const handleSheetChanges = useCallback((index: number) => {}, []);
 
   const hanldeOnClose = () => {
-    props.setSnapPoints(['15%', '90%']);
     router.replace('/');
     ref.current?.collapse();
     props.onClose?.();
@@ -27,7 +26,6 @@ export const MapBottomSheet = (props: Props) => {
 
   const contentContainerStyle = {
     ...styles.contentContainer,
-    
     paddingBottom: safeAreaInsets.bottom,
   };
   return (

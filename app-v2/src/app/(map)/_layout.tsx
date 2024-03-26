@@ -10,23 +10,17 @@ import { useLocationDialog } from '@/src/hooks/useLocationDialog';
 import { useLocationState } from '@/src/hooks/useLocationState';
 import { requestAedData } from '@/src/services/aed-data.service';
 import { toGeoJson } from '@/src/services/geojson-convert.service';
-import { Slot, router, usePathname } from 'expo-router';
+import { Slot, router } from 'expo-router';
 import { Feature } from 'geojson';
 import { useEffect, useRef, useState } from 'react';
-
-const routeSnapPointMapping: { [key: string]: string[] } = {
-  '/': ['15%', '90%'],
-  '/detail': ['50%', '90%'],
-  '/address': ['25%'],
-};
 
 export default () => {
   useLocationState();
   const showLocationDialog = useLocationDialog();
-  const pathname = usePathname();
-  const [snapPoints, setSnapPoints] = useState<string[]>(['15%', '90%']);
+  const [snapPoints, setSnapPoints] = useState<string[]>(['15%', '30%', '50%', '90%']);
   const { state, dispatch } = useAedContext();
   const [userLocation, setUserLocation] = useState<[number, number]>([0, 0]);
+  const [focusOnUserLocation, setFocusOnUserLocation] = useState(true);
   const {
     state: { isLocationServicesTurnedOn },
   } = useLocationContext();
@@ -45,15 +39,18 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    setSnapPoints(routeSnapPointMapping[pathname] || ['15%', '90%']);
-  }, [pathname]);
-
-  useEffect(() => {
     const markerPosition = selectedResult?.geometry.type === 'Point' ? (selectedResult.geometry.coordinates as [number, number]) : null;
     if (markerPosition) {
       flyTo.current?.(markerPosition, Constants.MAP_AED_LOCATION_ZOOM);
     }
   }, [selectedResult]);
+
+  useEffect(() => {
+    if (isLocationServicesTurnedOn && focusOnUserLocation && userLocation[0] !== 0 && userLocation[1] !== 0) {
+      flyTo.current?.(userLocation, Constants.MAP_USER_LOCATION_ZOOM);
+      setFocusOnUserLocation(false);
+    }
+  }, [isLocationServicesTurnedOn, userLocation, focusOnUserLocation]);
 
   const onFeaturePress = (feature: Feature) => {
     dispatch({ type: 'SET_SELECTED_AED_DATA', payload: feature });

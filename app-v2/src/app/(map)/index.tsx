@@ -15,9 +15,9 @@ export default () => {
   const { t } = useTranslation();
   const safeAreaInsets = useSafeAreaInsets();
   const { state, dispatch } = useSearchContext();
-  const [searchText, setSearchText] = useState(state.searchText);
+  const [searchText, setSearchText] = useState('');
   const [isInputFocus, setIsInputFocus] = useState(false);
-  const { collapse } = useBottomSheet();
+  const { expand, collapse } = useBottomSheet();
 
   useEffect(() => {
     const requestSearch = async () => {
@@ -39,18 +39,25 @@ export default () => {
   }, [searchText]);
 
   useEffect(() => {
-    collapse();
-  }, []);
+    setSearchText(state.searchText);
+  }, [state.searchText]);
+
+  useEffect(() => {
+    const count = state.searchResults?.features?.length;
+    if (searchText && count && count > 0) {
+      expand();
+    }
+
+    if (!searchText && (!count || count === 0) && !isInputFocus) {
+      collapse();
+    }
+  }, [searchText, state.searchResults, isInputFocus]);
 
   const handleSearchResultPress = (feature: Feature) => {
     dispatch({ type: 'SET_SELECTED_RESULT', payload: feature });
     router.navigate('address');
   };
 
-  const menuGroupStyle = {
-    paddingBottom: safeAreaInsets.bottom !== 0 ? safeAreaInsets.bottom : 10,
-    ...styles.menuGroup,
-  };
   return (
     <View style={styles.container}>
       <BottomSheetTextInput
@@ -62,7 +69,7 @@ export default () => {
       />
       <SearchResultList searchResult={state.searchResults} onPress={(f) => handleSearchResultPress(f)} />
       {!isInputFocus && state.searchResults === null ? (
-        <View style={menuGroupStyle}>
+        <View style={styles.menuGroup}>
           <TintButton title={t('about')} icon={<FontAwesome6 name="info" size={16} />} onPress={() => router.navigate('about')} />
         </View>
       ) : null}
@@ -76,8 +83,6 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   menuGroup: {
-    position: 'relative',
     width: '100%',
-    bottom: 0,
   },
 });

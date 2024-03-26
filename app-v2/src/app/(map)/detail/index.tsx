@@ -1,9 +1,12 @@
 import { FontAwesome6, ScrollView, Text, View, useThemeColor } from '@/src/components/Themed';
 import { AttributeListing } from '@/src/components/attribute-listing/AttributeListing';
-import { BottomSheetCloseButton } from '@/src/components/buttons/bottom-sheet-close-button/BottomSHeetCloseButton';
+import { BottomSheetCloseButton } from '@/src/components/buttons/bottom-sheet-close-button/BottomSheetCloseButton';
 import { TintButton } from '@/src/components/buttons/tint-button/TintButton';
+import { Tag } from '@/src/components/tag/Tag';
 import { useAedContext } from '@/src/context/AedContext';
+import { useBottomSheet } from '@gorhom/bottom-sheet';
 import opening_hours from 'opening_hours';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, Platform, StyleSheet } from 'react-native';
 import openMap from 'react-native-open-maps';
@@ -17,6 +20,11 @@ export default () => {
     state: { selectedData },
     dispatch,
   } = useAedContext();
+  const { snapToIndex } = useBottomSheet();
+
+  useEffect(() => {
+    snapToIndex(2);
+  }, []);
 
   const defibrillator = selectedData;
 
@@ -38,11 +46,7 @@ export default () => {
     try {
       const oh = new opening_hours(openingHours || '');
       const isOpen = oh.getState();
-      return isOpen ? (
-        <Text style={{ color: positiveColor, ...styles.tagTextStyle }}>{t('open')}</Text>
-      ) : (
-        <Text style={{ color: negativeColor, ...styles.tagTextStyle }}>{t('closed')}</Text>
-      );
+      return <Tag text={isOpen ? t('open') : t('closed')} color={isOpen ? positiveColor : negativeColor} />;
     } catch (e) {
       console.error('Error parsing opening hours', e);
       return null;
@@ -62,23 +66,21 @@ export default () => {
   const emergencyPhone = properties['emergency:phone'] ?? '144';
   const coordinates = defibrillator.geometry.type === 'Point' ? defibrillator.geometry.coordinates : null;
   const isOpenText = getIsOpenText(properties.opening_hours);
-  const accessibility =
-    properties.access === 'yes' ? (
-      <Text style={{ color: positiveColor, ...styles.tagTextStyle }}>{t('accessible')}</Text>
-    ) : (
-      properties.access === 'no' && <Text style={{ color: negativeColor, ...styles.tagTextStyle }}>{t('accessible')}</Text>
-    );
-  const indoor =
-    properties.indoor && properties.indoor === 'yes' ? (
-      <Text style={{ color: warningColor, ...styles.tagTextStyle }}>{t('indoor')}</Text>
-    ) : null;
+  const accessibility = properties.access && (
+    <Tag
+      text={properties.access === 'yes' ? t('accessible') : t('not_accessible')}
+      color={properties.access === 'yes' ? positiveColor : negativeColor}
+    />
+  );
+  const indoor = properties.indoor === 'yes' && <Tag text={t('indoor')} color={warningColor} />;
+
   return (
     <>
       <BottomSheetCloseButton onPress={handleClose} />
       <View style={styles.innerContainerStyle}>
         <View style={styles.titleContainer}>
           <Text style={styles.titleStyle}>{name}</Text>
-          <View style={styles.tagStyle}>
+          <View style={styles.tagContainerStyle}>
             {isOpenText}
             {accessibility}
             {indoor}
@@ -178,11 +180,7 @@ const styles = StyleSheet.create({
   iconStyle: {
     fontSize: 22,
   },
-  tagTextStyle: {
-    fontWeight: '600',
-    fontSize: 16,
-  },
-  tagStyle: {
+  tagContainerStyle: {
     flexDirection: 'row',
     gap: 10,
   },

@@ -11,10 +11,10 @@ import { StyleSheet } from 'react-native';
 export default () => {
   const { t } = useTranslation();
   const { state, dispatch } = useSearchContext();
-  const { snapToPosition } = useBottomSheet();
+  const { snapToIndex } = useBottomSheet();
 
   useEffect(() => {
-    snapToPosition('25%');
+    snapToIndex(1);
   }, []);
 
   const handleClose = () => {
@@ -26,11 +26,13 @@ export default () => {
   }
 
   return (
-    <View style={styles.container}>
+    <>
       <BottomSheetCloseButton onPress={handleClose} />
-      <Address feature={state.selectedResult} />
-      <TintButton style={styles.buttonStyle} icon={<FontAwesome6 name="plus" size={24} />} title={t('create_aed_at_address')} />
-    </View>
+      <View style={styles.container}>
+        <Address feature={state.selectedResult} />
+        <TintButton style={styles.buttonStyle} icon={<FontAwesome6 name="plus" size={24} />} title={t('create_aed_at_address')} />
+      </View>
+    </>
   );
 };
 const styles = StyleSheet.create({
