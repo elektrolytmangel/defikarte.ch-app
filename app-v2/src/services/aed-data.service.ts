@@ -2,7 +2,7 @@ import backend from "../api/backend";
 
 export const requestAedData = async (): Promise<any> => {
   try {
-    const response = await backend.get("/defibrillator", {
+    const response = await backend.get("/v2/defibrillator", {
       method: "GET",
       headers: {
         "ACCESS-Control-Allow-Origin": "*",

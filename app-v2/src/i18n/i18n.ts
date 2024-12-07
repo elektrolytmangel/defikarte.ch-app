@@ -41,6 +41,7 @@ i18n.use(initReactI18next).init({
         accessible: 'Accessible',
         not_accessible: 'Not Accessible',
         create_aed_at_address: 'Create AED at Address',
+        cancel: 'Cancel',
       },
     },
     de: {
@@ -74,6 +75,7 @@ i18n.use(initReactI18next).init({
         accessible: 'Zugänglich',
         not_accessible: 'Nicht zugänglich',
         create_aed_at_address: 'Defibrillator an Adresse erstellen',
+        cancel: 'Abbrechen',
       },
     },
     fr: {
@@ -107,6 +109,7 @@ i18n.use(initReactI18next).init({
         accessible: 'Accessible',
         not_accessible: 'Non accessible',
         create_aed_at_address: 'Créer un DEA à l’adresse',
+        cancel: 'Annuler',
       },
     },
     it: {
@@ -140,6 +143,7 @@ i18n.use(initReactI18next).init({
         accessible: 'Accessibile',
         not_accessible: 'Non accessibile',
         create_aed_at_address: 'Crea un DEA all’indirizzo',
+        cancel: 'Annullare',
       },
     },
   },

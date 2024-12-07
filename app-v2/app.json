@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "ch.defikarte.dev",
-      "buildNumber": "23",
+      "buildNumber": "26",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": true
       }
@@ -39,7 +39,8 @@
     "plugins": [
       "expo-router",
       "@maplibre/maplibre-react-native",
-      "expo-localization"
+      "expo-localization",
+      "./withxCode15DuplicateSignatureFix.js"
     ],
     "experiments": {
       "typedRoutes": true

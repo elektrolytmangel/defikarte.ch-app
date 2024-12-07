@@ -42,18 +42,10 @@ interface AEDData {
   level: string;
 }
 
+// todo: check if still used
 interface Location {
   lat: number;
   lng: number;
 }
 
-interface OsmFeature {
-  id: number;
-  tags: {
-    [key: string]: string;
-  };
-  lat: number;
-  lon: number;
-}
-
-export type { FormProps, AEDData, Location, OsmFeature };
+export type { FormProps, AEDData, Location };

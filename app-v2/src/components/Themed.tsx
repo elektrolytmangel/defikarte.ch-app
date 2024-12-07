@@ -95,15 +95,19 @@ export function TextInput(props: TextInputProps) {
   return <DefaultTextInput style={[{ backgroundColor: onSurface, color, padding: 10, borderRadius: 10 }, style]} {...otherProps} />;
 }
 
-export function BottomSheetTextInput(props: BottomSheetTextInputProps) {
+export const BottomSheetTextInput = forwardRef((props: BottomSheetTextInputProps, ref: ForwardedRef<BottomSheetTextInputProps>) => {
   const { style, lightColor, darkColor, ...otherProps } = props;
   const onSurface = useThemeColor({ light: lightColor, dark: darkColor }, 'tint');
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
   return (
-    <DefaultBottomSheetTextInput style={[{ backgroundColor: onSurface, color, padding: 10, borderRadius: 10 }, style]} {...otherProps} />
+    <DefaultBottomSheetTextInput
+      ref={ref}
+      style={[{ backgroundColor: onSurface, color, padding: 10, borderRadius: 10 }, style]}
+      {...otherProps}
+    />
   );
-}
+});
 
 export const BottomSheet = forwardRef((props: BottomSheetProps, ref: ForwardedRef<BottomSheetMethods>) => {
   const { style, handleStyle, handleIndicatorStyle, backgroundStyle, lightColor, darkColor, ...otherProps } = props;

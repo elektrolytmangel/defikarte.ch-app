@@ -9,7 +9,6 @@ import { useSearchContext } from '@/src/context/SearchContext';
 import { useLocationDialog } from '@/src/hooks/useLocationDialog';
 import { useLocationState } from '@/src/hooks/useLocationState';
 import { requestAedData } from '@/src/services/aed-data.service';
-import { toGeoJson } from '@/src/services/geojson-convert.service';
 import { Slot, router } from 'expo-router';
 import { Feature } from 'geojson';
 import { useEffect, useRef, useState } from 'react';
@@ -33,7 +32,7 @@ export default () => {
   useEffect(() => {
     const initData = async () => {
       const response = await requestAedData();
-      dispatch({ type: 'SET_AED_DATA', payload: toGeoJson(response) });
+      dispatch({ type: 'SET_AED_DATA', payload: response });
     };
     initData();
   }, []);
